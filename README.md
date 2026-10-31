@@ -38,3 +38,25 @@ pytest -q
 - Use an explicit object-oriented design.
 - Keep one main class per source file.
 
+## Design Explanation
+
+The Decorator Pattern allows additional functionality to be added to messages without modifying the original PlainMessage class.
+
+MessageDecorator implements the Message interface and wraps another Message object. UrgentDecorator and TimestampDecorator extend this base decorator to add their respective functionalities.
+
+Both decorators can be stacked around the same message.
+
+## Decorator Order
+
+The order of decorators matters because each decorator modifies the result returned by the wrapped message.
+
+For example:
+
+- TimestampDecorator(UrgentDecorator(message)) adds the timestamp before the urgent label.
+- UrgentDecorator(TimestampDecorator(message)) adds the urgent label before the timestamp.
+
+Both combinations are valid, but they produce different outputs.
+
+## Complexity Cost
+
+Each decorator introduces an additional object and a layer of delegation. As more decorators are stacked, the wrapper chain can become harder to understand, debug, and maintain.
